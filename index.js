@@ -12,8 +12,29 @@ require('dotenv').config();
 const PRIVATE_APP_ACCESS = process.env.HUBSPOT_PRIVATE_APP_TOKEN;
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
+// ROUTE 1 - Homepage to show Job Applications
+app.get('/', async (req, res) => {
+    const url = `https://api.hubapi.com/crm/v3/objects/2-192199893`;
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
 
-// * Code for Route 1 goes here
+    try {
+        const resp = await axios.get(url, {
+            headers,
+            params: {
+                properties: 'application_name,availability_hours_per_week,hourly_rate,linkedin_profile',
+                limit: 50
+            }
+        });
+        const data = resp.data.results;
+        res.render('homepage', { title: 'Job Applications | Practicum', data });
+    } catch (error) {
+        console.error(error.response?.data || error.message);
+        res.render('homepage', { title: 'Job Applications | Practicum', data: [], error: error.message });
+    }
+});
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
