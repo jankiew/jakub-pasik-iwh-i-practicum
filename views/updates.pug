@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title= title
+  body
+    h1= title
+    a(href="/") Return to the homepage
+
+    form(action="/update-cobj", method="post")
+      div
+        label(for="application_name") Application Name:
+        input(type="text", id="application_name", name="application_name", required)
+      div
+        label(for="availability_hours_per_week") Availability (hours per week):
+        input(type="number", id="availability_hours_per_week", name="availability_hours_per_week")
+      div
+        label(for="hourly_rate") Hourly Rate:
+        input(type="number", id="hourly_rate", name="hourly_rate", step="0.01")
+      div
+        label(for="linkedin_profile") LinkedIn Profile:
+        input(type="url", id="linkedin_profile", name="linkedin_profile")
+      div
+        button(type="submit") Submit
